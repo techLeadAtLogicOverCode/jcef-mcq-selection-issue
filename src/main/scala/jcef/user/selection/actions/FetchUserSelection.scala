@@ -8,11 +8,11 @@ import jcef.user.selection.service.MdBrowserService
 
 import java.util.function.Function
 
-class FetchUserSelection extends AnAction{
+class FetchUserSelection extends AnAction {
   override def actionPerformed(e: AnActionEvent): Unit = {
 
     val projectBrowserService = ServiceManager.getService(e.getProject, classOf[MdBrowserService])
-    val browser : JBCefBrowserBase = projectBrowserService.browser
+    val browser: JBCefBrowserBase = projectBrowserService.browser
 
     val jbCefJSQuery = JBCefJSQuery.create(browser)
 
@@ -24,15 +24,25 @@ class FetchUserSelection extends AnAction{
       }
     })
 
+
+//    browser.getCefBrowser.executeJavaScript(
+//      s"""
+//         |var selectedProjects = 'Hello';
+//         |alert(selectedProjects);
+//         |${jbCefJSQuery.inject("selectedProjects")}
+//         |""".stripMargin, browser.getCefBrowser.getURL, 0
+//    )
+
+
     browser.getCefBrowser.executeJavaScript(
-                    s"""
-                      var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
-                      var selectedProjects = Array.from(elements).map(element => element.value).join(';');
-                      ${jbCefJSQuery.inject("selectedProjects")}
-                    """.trim, browser.getCefBrowser.getURL, 0
-            )
+      s"""
+         |var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
+         |var selectedProjects = Array.from(elements).map(element => element.value).join(';');
+         |alert(selectedProjects);
+         |${jbCefJSQuery.inject("selectedProjects")}
+         |""".stripMargin, browser.getCefBrowser.getURL, 0
+    )
 
     Disposer.dispose(jbCefJSQuery)
-
   }
 }
