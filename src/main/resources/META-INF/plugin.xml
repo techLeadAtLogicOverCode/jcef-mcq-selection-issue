@@ -1,0 +1,30 @@
+<idea-plugin url="https://github.com/logicovercode/About"
+             xmlns:xi="http://www.w3.org/2001/XInclude"
+             require-restart="true">
+    <id>JcefDemo</id>
+    <name>JCefDemo</name>
+    <version>2021.2.22</version>
+    <idea-version since-build="212.4321" until-build="212.*"/>
+    <vendor email="techlead@logicovercode.com"/>
+
+    <description><![CDATA[
+    Jcef example to retrive user selected option from mcq html page
+    ]]></description>
+
+    <depends>com.intellij.modules.java</depends>
+    <depends>org.intellij.scala</depends>
+
+
+    <actions>
+        <action id="inspect.FetchUserSelection"
+                class="jcef.user.selection.actions.FetchUserSelection" text="Find Selected Option">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="jcef.user.selection.MdToolWindowFactory" id="MyToolWindow" anchor="bottom"/>
+
+        <projectService id="projectBrowserWindowService" serviceImplementation="jcef.user.selection.service.MdBrowserService"/>
+    </extensions>
+</idea-plugin>
