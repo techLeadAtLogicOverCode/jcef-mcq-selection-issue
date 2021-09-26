@@ -19,6 +19,7 @@ class FetchUserSelection extends AnAction {
 
     query.addHandler(new Function[String, JBCefJSQuery.Response]() {
       override def apply(s: String): JBCefJSQuery.Response = {
+        println(System.currentTimeMillis() + " call back thread : " + Thread.currentThread().getName)
         println(s"string is >$s<")
         null
       }
@@ -33,7 +34,7 @@ class FetchUserSelection extends AnAction {
 //         |""".stripMargin, browser.getCefBrowser.getURL, 0
 //    )
 
-
+    println(System.currentTimeMillis() + " executing java script in thread : " + Thread.currentThread().getName)
     browser.getCefBrowser.executeJavaScript(
       s"""
          |var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
