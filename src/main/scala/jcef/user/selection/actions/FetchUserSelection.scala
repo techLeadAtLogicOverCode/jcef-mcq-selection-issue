@@ -14,10 +14,10 @@ class FetchUserSelection extends AnAction {
     val projectBrowserService = ServiceManager.getService(e.getProject, classOf[MdBrowserService])
     val browser: JBCefBrowserBase = projectBrowserService.browser
 
-    val jbCefJSQuery = JBCefJSQuery.create(browser)
 
+    val query = projectBrowserService.jbCefJSQuery
 
-    jbCefJSQuery.addHandler(new Function[String, JBCefJSQuery.Response]() {
+    query.addHandler(new Function[String, JBCefJSQuery.Response]() {
       override def apply(s: String): JBCefJSQuery.Response = {
         println(s"string is >$s<")
         null
@@ -38,11 +38,10 @@ class FetchUserSelection extends AnAction {
       s"""
          |var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
          |var selectedProjects = Array.from(elements).map(element => element.value).join(';');
-         |alert(selectedProjects);
-         |${jbCefJSQuery.inject("selectedProjects")}
+         |${query.inject("selectedProjects")}
          |""".stripMargin, browser.getCefBrowser.getURL, 0
     )
 
-    Disposer.dispose(jbCefJSQuery)
+    //Disposer.dispose(jbCefJSQuery)
   }
 }
