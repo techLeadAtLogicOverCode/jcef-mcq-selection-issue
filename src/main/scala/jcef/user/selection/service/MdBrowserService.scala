@@ -2,7 +2,7 @@ package jcef.user.selection.service
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Disposer
-import com.intellij.ui.jcef.{JBCefApp, JBCefClient, JBCefJSQuery, JCEFHtmlPanel}
+import com.intellij.ui.jcef.{JBCefApp, JBCefBrowserBase, JBCefClient, JBCefJSQuery, JCEFHtmlPanel}
 
 class MdBrowserService(val project: Project) {
 
@@ -13,6 +13,6 @@ class MdBrowserService(val project: Project) {
     b
   }
 
-  val jbCefJSQuery = JBCefJSQuery.create(browser)
+  val jbCefJSQuery = JBCefJSQuery.create(browser.asInstanceOf[JBCefBrowserBase])
   Disposer.register(project, browser)
 }

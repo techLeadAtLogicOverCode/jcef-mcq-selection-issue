@@ -25,15 +25,6 @@ class FetchUserSelection extends AnAction {
       }
     })
 
-
-//    browser.getCefBrowser.executeJavaScript(
-//      s"""
-//         |var selectedProjects = 'Hello';
-//         |alert(selectedProjects);
-//         |${jbCefJSQuery.inject("selectedProjects")}
-//         |""".stripMargin, browser.getCefBrowser.getURL, 0
-//    )
-
     println(System.currentTimeMillis() + " executing java script in thread : " + Thread.currentThread().getName)
     browser.getCefBrowser.executeJavaScript(
       s"""
