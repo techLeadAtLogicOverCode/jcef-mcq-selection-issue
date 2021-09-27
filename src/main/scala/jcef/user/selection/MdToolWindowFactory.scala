@@ -1,20 +1,62 @@
 package jcef.user.selection
 
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.actionSystem.{ActionManager, ActionPlaces, DefaultActionGroup}
+import com.intellij.openapi.project.{DumbAware, Project}
+import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
-import com.intellij.ui.jcef.JBCefBrowser
-import jcef.user.selection.service.MdBrowserService
+import com.intellij.ui.jcef._
 
-class MdToolWindowFactory extends ToolWindowFactory {
+import java.awt.BorderLayout
+import javax.swing.JPanel
+
+object ToolWindowComponents{
+  lazy val browser: JCEFHtmlPanel = {
+    println("creating browser")
+    val client: JBCefClient = JBCefApp.getInstance().createClient()
+    val b = new JCEFHtmlPanel(client, null)
+    b.getJBCefClient.setProperty(JBCefClient.Properties.JS_QUERY_POOL_SIZE, 10)
+    b
+  }
+
+  lazy val query = {
+    println("creating js query")
+    JBCefJSQuery.create(browser.asInstanceOf[JBCefBrowserBase])
+  }
+}
+
+class MdToolWindowFactory extends ToolWindowFactory with DumbAware{
 
   override def createToolWindowContent(project: Project, toolWindow: ToolWindow): Unit = {
 
-    val projectBrowserService = ServiceManager.getService(project, classOf[MdBrowserService])
+    println("creating tool window component")
 
-    val browser: JBCefBrowser = projectBrowserService.browser
+    val toolBarActionGroup = {
+      val defaultActionGroup = new DefaultActionGroup()
 
-    toolWindow.getComponent.add( browser.getComponent )
+      val fetchUserSelectionAction = ActionManager.getInstance().getAction("inspect.FetchUserSelection") ;
+      defaultActionGroup.addAction(fetchUserSelectionAction)
+      defaultActionGroup
+    }
+
+    import ToolWindowComponents._
+    //val projectBrowserService = ServiceManager.getService(project, classOf[MdBrowserService])
+    //val browser: JBCefBrowser = projectBrowserService.browser
+
+    val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLWINDOW_TITLE, toolBarActionGroup, true) ;
+
+    val toolWindowPanel = {
+      val panel = new JPanel()
+      panel.setLayout( new BorderLayout() )
+      panel.add( browser.getComponent, BorderLayout.CENTER )
+      panel.add( toolbar.getComponent, BorderLayout.NORTH )
+      panel
+    }
+
+    toolbar.setTargetComponent(toolWindowPanel)
+    toolWindow.getComponent.add( toolWindowPanel )
+
+    Disposer.register(project, browser)
+    Disposer.register(project, query)
 
     browser.loadHTML( MdToolWindowFactory.htmlContent )
   }

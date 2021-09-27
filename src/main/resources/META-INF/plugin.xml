@@ -18,13 +18,11 @@
     <actions>
         <action id="inspect.FetchUserSelection"
                 class="jcef.user.selection.actions.FetchUserSelection" text="Find Selected Option">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <!--add-to-group group-id="ToolsMenu" anchor="first"/-->
         </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="jcef.user.selection.MdToolWindowFactory" id="MyToolWindow" anchor="bottom"/>
-
-        <projectService id="projectBrowserWindowService" serviceImplementation="jcef.user.selection.service.MdBrowserService"/>
     </extensions>
 </idea-plugin>
