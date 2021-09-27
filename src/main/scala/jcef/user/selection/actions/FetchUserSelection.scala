@@ -1,23 +1,20 @@
 package jcef.user.selection.actions
 
 import com.intellij.openapi.actionSystem.{AnAction, AnActionEvent}
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.util.Disposer
-import com.intellij.ui.jcef.{JBCefBrowserBase, JBCefClient, JBCefJSQuery}
-import jcef.user.selection.{ToolWindowComponents, MdToolWindowFactory}
-import jcef.user.selection.service.MdBrowserService
+import com.intellij.ui.jcef.JBCefJSQuery
+import jcef.user.selection.service.HtmlToolWindowComponentsService
 
 import java.util.function.Function
 
 class FetchUserSelection extends AnAction {
   override def actionPerformed(e: AnActionEvent): Unit = {
 
-    import ToolWindowComponents._
-//    val projectBrowserService = ServiceManager.getService(e.getProject, classOf[MdBrowserService])
-//    val browser: JBCefBrowserBase = projectBrowserService.browser
-//
-//
-//    val query = projectBrowserService.jbCefJSQuery
+
+    val htmlToolWindowComponentsService = e.getProject.getService(classOf[HtmlToolWindowComponentsService])
+    val browser = htmlToolWindowComponentsService.browser
+
+
+    val query = htmlToolWindowComponentsService.query
 
 
     query.addHandler(new Function[String, JBCefJSQuery.Response]() {
@@ -37,7 +34,5 @@ class FetchUserSelection extends AnAction {
          |${query.inject("selectedProjects")}
          |""".stripMargin, browser.getCefBrowser.getURL, 0
     )
-
-    //Disposer.dispose(jbCefJSQuery)
   }
 }

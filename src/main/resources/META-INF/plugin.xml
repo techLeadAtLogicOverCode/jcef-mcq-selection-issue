@@ -24,5 +24,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow factoryClass="jcef.user.selection.MdToolWindowFactory" id="MyToolWindow" anchor="bottom"/>
+
+        <projectService id="projectBrowserWindowService" serviceImplementation="jcef.user.selection.service.HtmlToolWindowComponentsService"/>
     </extensions>
 </idea-plugin>

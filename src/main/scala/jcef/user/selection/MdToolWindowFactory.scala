@@ -5,24 +5,12 @@ import com.intellij.openapi.project.{DumbAware, Project}
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.{ToolWindow, ToolWindowFactory}
 import com.intellij.ui.jcef._
+import jcef.user.selection.service.HtmlToolWindowComponentsService
 
 import java.awt.BorderLayout
 import javax.swing.JPanel
 
-object ToolWindowComponents{
-  lazy val browser: JCEFHtmlPanel = {
-    println("creating browser")
-    val client: JBCefClient = JBCefApp.getInstance().createClient()
-    val b = new JCEFHtmlPanel(client, null)
-    b.getJBCefClient.setProperty(JBCefClient.Properties.JS_QUERY_POOL_SIZE, 10)
-    b
-  }
 
-  lazy val query = {
-    println("creating js query")
-    JBCefJSQuery.create(browser.asInstanceOf[JBCefBrowserBase])
-  }
-}
 
 class MdToolWindowFactory extends ToolWindowFactory with DumbAware{
 
@@ -38,9 +26,10 @@ class MdToolWindowFactory extends ToolWindowFactory with DumbAware{
       defaultActionGroup
     }
 
-    import ToolWindowComponents._
-    //val projectBrowserService = ServiceManager.getService(project, classOf[MdBrowserService])
-    //val browser: JBCefBrowser = projectBrowserService.browser
+
+    val htmlToolWindowComponentsService = project.getService(classOf[HtmlToolWindowComponentsService])
+    val browser: JBCefBrowser = htmlToolWindowComponentsService.browser
+    val query = htmlToolWindowComponentsService.query
 
     val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLWINDOW_TITLE, toolBarActionGroup, true) ;
 
