@@ -3,17 +3,12 @@
 
 <head>
     <script type="text/javascript">
-            function user_selection() {
+            function findAnswers() {
 
-               var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
-               var selectedProjects = Array.from(elements).map(element => element.value).join(';');
-               alert (selectedProjects);
-            }
-
-            function hardCoded() {
-
-               var selectedProjects = 'Hello';
-               alert (selectedProjects);
+               var elements = document.querySelectorAll('input[name=mcq]:checked');
+               var selectedAnswers = Array.from(elements).map(element => element.id).join(';');
+               var correctAnswers = document.getElementById('answers').value;
+               return selectedAnswers.concat(':').concat(correctAnswers);
             }
 
     </script>
@@ -23,14 +18,16 @@
 
 <form>
     <p>Which is a interpreted language ?</p>
-    <input type="radio" id="c" name="interpreted_language" value="C">
-    <label for="c">C</label><br>
-    <input type="radio" id="java" name="interpreted_language" value="Java">
-    <label for="java">Java</label><br>
-    <input type="radio" id="python" name="interpreted_language" value="Python">
-    <label for="python">Python</label>
+    <input type="radio" id="a" name="mcq" value="C">
+    <label for="a">C</label><br>
+    <input type="radio" id="b" name="mcq" value="Python">
+    <label for="b">Python</label><br>
+    <input type="radio" id="c" name="mcq" value="Java">
+    <label for="c">Java</label><br>
 
     <input type="button" id="user selection" value="Find User Input" onclick="user_selection();"/>
+
+    <input type="hidden" id="answers" value="c">
 
 </form>
 </body>

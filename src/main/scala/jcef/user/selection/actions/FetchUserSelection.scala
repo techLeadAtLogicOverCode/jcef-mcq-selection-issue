@@ -29,9 +29,15 @@ class FetchUserSelection extends AnAction {
 
     browser.getCefBrowser.executeJavaScript(
       s"""
-         |var elements = document.querySelectorAll('input[name=interpreted_language]:checked');
-         |var selectedProjects = Array.from(elements).map(element => element.value).join(';');
-         |${query.inject("selectedProjects")}
+         |var answers = findAnswers()
+         |${query.inject("answers")}
+         |""".stripMargin, browser.getCefBrowser.getURL, 0
+    )
+
+    browser.getCefBrowser.executeJavaScript(
+      s"""
+         |var answers = correct_answers()
+         |${query.inject("answers")}
          |""".stripMargin, browser.getCefBrowser.getURL, 0
     )
   }
