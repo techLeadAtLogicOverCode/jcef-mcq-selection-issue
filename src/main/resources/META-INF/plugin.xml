@@ -3,12 +3,12 @@
              require-restart="true">
     <id>JcefDemo</id>
     <name>JCefDemo</name>
-    <version>2021.2.22</version>
-    <idea-version since-build="212.4321" until-build="212.*"/>
+    <version>2021.3.18</version>
+    <idea-version since-build="213.5744.223" until-build="221.*"/>
     <vendor email="techlead@logicovercode.com"/>
 
     <description><![CDATA[
-    Jcef example to retrive user selected option from mcq html page
+    Jcef example to retrieve user selected option from mcq html page
     ]]></description>
 
     <depends>com.intellij.modules.java</depends>
@@ -16,9 +16,11 @@
 
 
     <actions>
-        <action id="inspect.FetchUserSelection"
-                class="jcef.user.selection.actions.FetchUserSelection" text="Find Selected Option">
-            <!--add-to-group group-id="ToolsMenu" anchor="first"/-->
+        <action id="inspect.ExtractUserSelection" class="jcef.user.selection.actions.ExtractUserSelection" text="Extract Selected Option">
+            <add-to-group group-id="ToolsMenu" anchor="first" />
+        </action>
+        <action id="inspect.ShowUserSelection" class="jcef.user.selection.actions.ShowUserSelection" text="Show Selected Option">
+            <add-to-group group-id="ToolsMenu" anchor="first" />
         </action>
     </actions>
 

@@ -18,20 +18,11 @@ class MdToolWindowFactory extends ToolWindowFactory with DumbAware{
 
     println("creating tool window component")
 
-    val toolBarActionGroup = {
-      val defaultActionGroup = new DefaultActionGroup()
-
-      val fetchUserSelectionAction = ActionManager.getInstance().getAction("inspect.FetchUserSelection") ;
-      defaultActionGroup.addAction(fetchUserSelectionAction)
-      defaultActionGroup
-    }
-
-
     val htmlToolWindowComponentsService = project.getService(classOf[HtmlToolWindowComponentsService])
     val browser: JBCefBrowser = htmlToolWindowComponentsService.browser
     val query = htmlToolWindowComponentsService.query
 
-    val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLWINDOW_TITLE, toolBarActionGroup, true) ;
+    val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLWINDOW_TITLE, new DefaultActionGroup(), true) ;
 
     val toolWindowPanel = {
       val panel = new JPanel()
@@ -80,8 +71,6 @@ object MdToolWindowFactory{
       |    <label for="b">Python</label><br>
       |    <input type="radio" id="c" name="mcq" value="Java">
       |    <label for="c">Java</label><br>
-      |
-      |    <input type="button" id="user selection" value="Find User Input" onclick="user_selection();"/>
       |
       |    <input type="hidden" id="answers" value="c">
       |
