@@ -3,8 +3,8 @@
              require-restart="true">
     <id>JcefDemo</id>
     <name>JCefDemo</name>
-    <version>2021.3.18</version>
-    <idea-version since-build="213.5744.223" until-build="221.*"/>
+    <version>2023.1.23</version>
+    <idea-version since-build="231.7665" until-build="231.*"/>
     <vendor email="techlead@logicovercode.com"/>
 
     <description><![CDATA[

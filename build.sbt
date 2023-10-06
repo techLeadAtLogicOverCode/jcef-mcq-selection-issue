@@ -3,12 +3,12 @@ lazy val jcefUserSelection =
     .enablePlugins(SbtIdeaPlugin)
     .settings(
       version := "0.0.1-SNAPSHOT",
-      scalaVersion := "2.13.7",
+      scalaVersion := "2.13.10",
       ThisBuild / intellijPluginName := "jcefUserSelection",
-      ThisBuild / intellijBuild      := "213.5744.223",
+      ThisBuild / intellijBuild      := "231.9161.38",
       ThisBuild / intellijPlatform   := IntelliJPlatform.IdeaCommunity,
       Global    / intellijAttachSources := true,
       ThisBuild / bundleScalaLibrary := false,
-      intellijPlugins += "org.intellij.scala:2021.3.18".toPlugin,
+      intellijPlugins += "org.intellij.scala:2023.1.23".toPlugin,
       libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
     )
